@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Bootcamps &amp; Training · Proseperity</title>
+  <meta name="description" content="Hands-on AI bootcamps and training programs. Build real AI systems — RAG pipelines, multi-agent backends, governed AI applications — with instructors who ship to production." />
+
+  <!-- Fonts: Manrope (sans) + JetBrains Mono (mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --surface:         #f0efea;
+      --surface-alt:     #e6e5df;
+      --ink:             #141517;
+      --ink-muted:       #5b5d63;
+      --hairline:        #d8d7d0;
+      --accent:          #c8f04a;
+      --on-accent:       #141517;
+      --accent-text:     #4a6100;
+      --graphite-950:    #121315;
+      --graphite-900:    #1e1f22;
+      --graphite-800:    #303237;
+      --graphite-600:    #83868e;
+      --radius-sm:       6px;
+      --radius-md:       12px;
+      --radius-lg:       20px;
+      --radius-pill:     999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: 'Manrope', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { overflow-wrap: break-word; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Typography */
+    .text-eyebrow {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12px; line-height: 16px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+
+    /* Layout */
+    .container-page {
+      width: 100%; max-width: 1280px;
+      margin-inline: auto; padding-inline: 24px;
+    }
+    @media (min-width: 768px) { .container-page { padding-inline: 48px; } }
+
+    /* Navigation & Header */
+    header {
+      position: sticky; top: 0; z-index: 30;
+      border-bottom: 1px solid var(--hairline);
+      background: var(--surface);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 32px; }
+    .wordmark {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px; font-weight: 700; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .wordmark span { color: var(--accent); }
+    nav ul { display: none; list-style: none; gap: 24px; align-items: center; }
+    @media (min-width: 860px) { nav ul { display: flex; } }
+    nav a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--ink-muted); transition: color .15s; }
+    nav a:hover, nav a.active { color: var(--ink); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: var(--radius-pill);
+      font-family: 'Manrope', sans-serif; font-size: 15px;
+      font-weight: 600; line-height: 24px; text-decoration: none;
+      cursor: pointer; border: 1.5px solid transparent;
+      transition: opacity .15s ease, transform .15s ease; white-space: nowrap;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .btn-secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+    .btn-secondary:hover { background: var(--ink); color: var(--surface); opacity: 1; }
+    .btn-lg { padding: 14px 28px; font-size: 16px; }
+
+    /* Pills */
+    .pill { display: inline-block; padding: 4px 12px; border-radius: var(--radius-pill); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .pill-accent { background: var(--accent); color: var(--on-accent); }
+    .pill-outline { border: 1px solid var(--hairline); color: var(--ink-muted); }
+    .pill-outline-dark { border: 1px solid rgba(240,239,234,.22); color: rgba(240,239,234,.7); }
+
+    /* Sections */
+    .section { padding-block: 80px; border-top: 1px solid var(--hairline); }
+    @media (min-width: 768px) { .section { padding-block: 100px; } }
+    .section-dark {
+      background: var(--graphite-950); color: #f0efea;
+      --surface: var(--graphite-900); --surface-alt: var(--graphite-800);
+      --hairline: rgba(240,239,234,.14); --ink: #f0efea; --ink-muted: #9a9ca3;
+    }
+    .section-alt { background: var(--surface-alt); }
+
+    .section-heading { display: flex; flex-direction: column; gap: 12px; max-width: 640px; }
+    .section-heading.wide { max-width: 820px; }
+    .section-title { font-size: 36px; line-height: 42px; font-weight: 700; letter-spacing: -0.015em; }
+    @media (min-width: 768px) { .section-title { font-size: 48px; line-height: 52px; } }
+    .section-lead { font-size: 18px; line-height: 28px; color: var(--ink-muted); max-width: 560px; }
+
+    /* Hero - Emergence Leaders Light Theme Split Grid Pattern */
+    #hero {
+      display: grid;
+      border-bottom: 1px solid var(--hairline);
+      background: var(--surface);
+      color: var(--ink);
+      width: 100%;
+    }
+    @media (min-width: 1024px) {
+      #hero {
+        grid-template-columns: 1fr 1fr;
+        min-height: max(640px, 100svh);
+      }
+    }
+    .hero-content-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+      padding: 56px 24px;
+    }
+    @media (min-width: 768px) {
+      .hero-content-col {
+        padding: 80px 48px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .hero-content-col {
+        padding-top: 80px;
+        padding-bottom: 80px;
+        padding-left: max(48px, calc((100vw - 1280px) / 2 + 48px));
+        padding-right: 64px;
+      }
+    }
+    .hero-inner-wrap {
+      display: flex;
+      max-width: 580px;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .hero-h1 { font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+    @media (min-width: 768px) { .hero-h1 { font-size: 56px; line-height: 60px; } }
+    @media (min-width: 1200px) { .hero-h1 { font-size: 64px; line-height: 68px; } }
+    .hero-h1 .accent {
+      color: var(--ink);
+      font-style: normal;
+      background-image: linear-gradient(transparent 32%, var(--accent) 32%, var(--accent) 84%, transparent 84%);
+      padding-inline: 4px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .hero-lead { font-size: 18px; line-height: 28px; color: var(--ink-muted); max-width: 540px; }
+    .hero-ctarow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    /* Hero Image Slot matching Emergence ImageSlot */
+    .hero-media-col {
+      position: relative;
+      aspect-ratio: 4/3;
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      overflow: hidden;
+      background: var(--surface-alt);
+      border-top: 1px solid var(--hairline);
+    }
+    @media (min-width: 1024px) {
+      .hero-media-col {
+        aspect-ratio: auto;
+        min-height: auto;
+        border-top: none;
+        border-left: 1px solid var(--hairline);
+      }
+    }
+    .hero-media-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 32% center;
+      display: block;
+    }
+    .hero-image-placeholder {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: flex-end;
+      overflow: hidden;
+      background: var(--surface-alt);
+      padding: 24px;
+    }
+    .hero-image-placeholder-hatch {
+      position: absolute;
+      inset: 0;
+      opacity: 0.6;
+      background-image: repeating-linear-gradient(135deg, transparent 0 14px, var(--hairline) 14px 15px);
+    }
+    .hero-image-placeholder-meta {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      max-width: 440px;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* ── PROBLEM SECTION ── */
+    .problem-grid { display: grid; gap: 24px; margin-top: 48px; }
+    @media (min-width: 768px) { .problem-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .problem-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .problem-card { display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(240,239,234,.12); border-radius: var(--radius-md); background: var(--graphite-900); padding: 24px; }
+    .problem-card-num { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .problem-card-title { font-size: 18px; font-weight: 700; color: #f0efea; }
+    .problem-card-body  { font-size: 15px; line-height: 24px; color: #9a9ca3; }
+
+    /* ── HOW WE TRAIN (WITH IMAGE INTEGRATION) ── */
+    .approach-grid { display: grid; gap: 32px; margin-top: 56px; }
+    @media (min-width: 1024px) { .approach-grid { grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; } }
+    .approach-col { display: flex; flex-direction: column; gap: 24px; }
+    .approach-item { display: grid; grid-template-columns: 36px 1fr; gap: 16px; align-items: start; }
+    .approach-item-num { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--accent); color: var(--on-accent); font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .approach-item-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .approach-item-body  { font-size: 15px; line-height: 24px; color: var(--ink-muted); }
+
+    .approach-visual-card {
+      border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+      overflow: hidden; background: var(--surface); display: flex;
+    }
+    .approach-img-box {
+      width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--surface-alt);
+    }
+    .approach-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── COMPLETED BOOTCAMP SPOTLIGHT ── */
+    .completed-spotlight-card {
+      border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+      background: var(--surface-alt); overflow: hidden; margin-top: 40px;
+      display: grid;
+    }
+    @media (min-width: 900px) {
+      .completed-spotlight-card { grid-template-columns: 1.15fr 0.85fr; }
+    }
+    .completed-spotlight-body {
+      padding: 40px; display: flex; flex-direction: column; gap: 20px; justify-content: center;
+    }
+    .completed-spotlight-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .completed-spotlight-title { font-size: 28px; line-height: 36px; font-weight: 700; color: var(--ink); }
+    .completed-spotlight-desc { font-size: 15px; line-height: 24px; color: var(--ink-muted); }
+    .completed-spotlight-meta {
+      display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--ink);
+      border-top: 1px solid var(--hairline); padding-top: 16px;
+    }
+    .completed-spotlight-meta span { display: flex; align-items: center; gap: 6px; }
+    .completed-spotlight-meta span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-text); }
+    .completed-spotlight-media {
+      position: relative; min-height: 280px; background: var(--surface);
+    }
+    .completed-spotlight-media img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid; gap: 24px; margin-top: 48px;
+    }
+    @media (min-width: 768px) {
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .testi-card {
+      border: 1px solid var(--hairline); border-radius: var(--radius-md);
+      background: var(--surface); padding: 32px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .testi-quote { font-size: 15px; line-height: 25px; color: var(--ink); font-style: normal; }
+    .testi-person { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+    .testi-avatar-placeholder {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--surface-alt); border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-muted); flex-shrink: 0;
+    }
+    .testi-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
+    .testi-name { font-weight: 700; color: var(--ink); font-size: 15px; }
+    .testi-role { font-size: 13px; color: var(--ink-muted); }
+
+    /* ── METHODOLOGY & TECH STACK ── */
+    .method-row { display: grid; gap: 48px; margin-top: 56px; align-items: center; }
+    @media (min-width: 1024px) { .method-row { grid-template-columns: 1fr 1fr; } }
+    .method-list { display: flex; flex-direction: column; gap: 0; }
+    .method-item { display: flex; gap: 20px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--hairline); }
+    .method-item:last-child { border-bottom: none; }
+    .method-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); background: var(--surface-alt); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+    .method-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .method-body  { font-size: 14px; line-height: 22px; color: var(--ink-muted); }
+
+    .method-panel { background: var(--graphite-950); border-radius: var(--radius-lg); padding: 36px; display: flex; flex-direction: column; gap: 20px; }
+    .method-panel-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+    .method-panel-heading { font-size: 26px; line-height: 34px; font-weight: 700; color: #f0efea; }
+    .method-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tool-chip { border: 1px solid rgba(240,239,234,.18); border-radius: var(--radius-pill); padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #9a9ca3; }
+    .method-panel-note { font-size: 14px; line-height: 22px; color: #9a9ca3; border-top: 1px solid rgba(240,239,234,.1); padding-top: 20px; }
+
+    /* ── ENQUIRY ── */
+    #enquiry { background: var(--graphite-950); color: #f0efea; border-top: none; }
+    .enquiry-wrapper { display: grid; gap: 56px; }
+    @media (min-width: 1024px) { .enquiry-wrapper { grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; } }
+    .enquiry-heading { font-size: 38px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em; color: #f0efea; }
+    .enquiry-lead { font-size: 17px; line-height: 26px; color: #9a9ca3; margin-top: 12px; }
+
+    .form { display: flex; flex-direction: column; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9a9ca3; }
+    .field input, .field select, .field textarea {
+      background: var(--graphite-800); border: 1.5px solid rgba(240,239,234,.16);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+      font-family: 'Manrope', sans-serif; font-size: 15px; color: #f0efea;
+      width: 100%; transition: border-color .15s; outline: none; appearance: none;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #5b5d63; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+    .field select { cursor: pointer; }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field-row { display: grid; gap: 16px; }
+    @media (min-width: 480px) { .field-row { grid-template-columns: 1fr 1fr; } }
+
+    /* ── FOOTER ── */
+    footer { background: var(--graphite-950); border-top: 1px solid rgba(240,239,234,.10); padding-block: 40px; color: #f0efea; }
+    .footer-inner { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+    @media (min-width: 640px) { .footer-inner { flex-direction: row; justify-content: space-between; text-align: left; } }
+    .footer-brand { font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 700; }
+    .footer-brand span { color: var(--accent); }
+    .footer-copy { font-size: 13px; color: #5b5d63; }
+    .footer-contact a { font-size: 13px; color: #9a9ca3; text-decoration: none; }
+    .footer-contact a:hover { color: var(--accent); }
+
+    .dot-accent { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container-page header-inner">
+      <div class="brand-wrap">
+        <a href="index.html" class="wordmark" aria-label="Proseperity home">Proseperity<span>.</span></a>
+        <nav aria-label="Main Navigation">
+          <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="bootcamps.html">Bootcamps</a></li>
+          </ul>
+        </nav>
+      </div>
+      <a href="#enquiry" class="btn btn-primary">Enquire Now</a>
+    </div>
+  </header>
+
+
+  <!-- HERO (Emergence Leaders Page Light Split Grid) -->
+  <section id="hero" aria-labelledby="hero-h1">
+    <div class="hero-content-col">
+      <div class="hero-inner-wrap">
+        <span class="text-eyebrow" style="color: rgb(74, 97, 0);">Developer &amp; In-Campus AI Bootcamps</span>
+
+        <h1 id="hero-h1" class="hero-h1">
+          Build AI that<br />
+          actually <em class="accent">ships.</em>
+        </h1>
+
+        <p class="hero-lead">
+          Hands-on training programs that take developers, students, and corporate teams from AI awareness to production-ready AI systems — through real code, real tools, and real problems.
+        </p>
+
+        <!-- Hero CTAs -->
+        <div class="hero-ctarow">
+          <a href="#enquiry" class="btn btn-primary btn-lg">Enquire about a program <span aria-hidden="true">→</span></a>
+          <a href="bootcamps.html" class="btn btn-secondary btn-lg">Explore all bootcamps</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Image / ImageSlot matching Emergence ImageSlot pattern -->
+    <div class="hero-media-col">
+      <img
+        src="images/dev-team.jpg"
+        alt="Four developers working together at a shared desk in an office discussing code on two monitors"
+        class="hero-media-img"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        style="object-position: 32% center;"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback ImageSlot Placeholder with diagonal hairline hatch and prompt -->
+      <div
+        class="hero-image-placeholder"
+        style="display: none;"
+        role="img"
+        aria-label="Four developers at a shared desk in a bright office, discussing code on two monitors."
+      >
+        <div aria-hidden="true" class="hero-image-placeholder-hatch"></div>
+        <div class="hero-image-placeholder-meta">
+          <span class="text-eyebrow" style="color: var(--ink-muted);">Image Slot · Developer Lab</span>
+          <span style="font-size: 13px; color: var(--ink-muted); line-height: 20px;">
+            Four developers at a shared desk in a bright office, discussing code on two monitors.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- THE PROBLEM -->
+  <section id="problem" class="section section-dark" aria-labelledby="problem-h2" style="border-top: 1px solid rgba(240,239,234,.14);">
+    <div class="container-page">
+
+      <div class="section-heading">
+        <span class="text-eyebrow" style="color: var(--accent);">The gap we close</span>
+        <h2 id="problem-h2" class="section-title" style="color: #f0efea;">
+          AI is everywhere. People who can build it responsibly are not.
+        </h2>
+        <p class="section-lead" style="color: #9a9ca3;">
+          Organizations are adopting Generative AI, RAG, Agents, and intelligent workflows at speed. But there is a consistent gap between awareness and the ability to build governed, cost-efficient, production-grade AI.
+        </p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <span class="problem-card-num">01</span>
+          <p class="problem-card-title">Demos don't become products</p>
+          <p class="problem-card-body">Most AI experimentation stays in notebooks. Teams know the concept but struggle to build a production API, add validation guardrails, or trace operational cost.</p>
+        </div>
+        <div class="problem-card">
+          <span class="problem-card-num">02</span>
+          <p class="problem-card-title">AI runs blind and expensive</p>
+          <p class="problem-card-body">Without observability and cost governance, applications waste tokens, leak PII into prompts, and output unstructured responses that break downstream systems.</p>
+        </div>
+        <div class="problem-card">
+          <span class="problem-card-num">03</span>
+          <p class="problem-card-title">Theory doesn't transfer to code</p>
+          <p class="problem-card-body">Courses teach concepts. The gap is in taking understanding of LLMs, RAG, and agents and writing governed code that can be deployed, tested, and audited.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- HOW WE TRAIN (WITH LAB IMAGES) -->
+  <section id="what-we-do" class="section" aria-labelledby="how-h2">
+    <div class="container-page">
+
+      <div class="section-heading wide">
+        <span class="text-eyebrow" style="color: var(--accent-text);">How we train</span>
+        <h2 id="how-h2" class="section-title">
+          Instructor-led. Hands-on labs. Real AI systems, built by you.
+        </h2>
+        <p class="section-lead">
+          Our bootcamps are structured so that every concept is immediately applied in code. By the time you leave, you have a working AI backend — not slides.
+        </p>
+      </div>
+
+      <div class="approach-grid">
+
+        <div class="approach-col">
+          <div class="approach-item">
+            <div class="approach-item-num">1</div>
+            <div>
+              <p class="approach-item-title">Instructor-led sessions with live demos</p>
+              <p class="approach-item-body">Every concept is walked through live in code with the instructor. You see how it works, then immediately build it in your own environment.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <div class="approach-item-num">2</div>
+            <div>
+              <p class="approach-item-title">Guided hands-on labs</p>
+              <p class="approach-item-body">Labs are structured with step-by-step guidance. You are never left stuck on a blank screen; instructors guide you through real errors and trace outputs.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <div class="approach-item-num">3</div>
+            <div>
+              <p class="approach-item-title">Team capstone build</p>
+              <p class="approach-item-body">The final phase is a team-based capstone where you apply everything — RAG, guardrails, agents, and observability — to a real problem. You present and keep the code.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual photo card -->
+        <div class="approach-visual-card">
+          <div class="approach-img-box">
+            <img src="images/dev-collab.webp" alt="Developers collaborating in a hands-on AI lab" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- COMPLETED BOOTCAMP SPOTLIGHT -->
+  <section id="completed-bootcamps" class="section" aria-labelledby="spotlight-h2">
+    <div class="container-page">
+
+      <div class="section-heading">
+        <span class="text-eyebrow" style="color: var(--accent-text);">Past Edition Spotlight</span>
+        <h2 id="spotlight-h2" class="section-title">Completed Bootcamps</h2>
+        <p class="section-lead">
+          Highlighting our successfully conducted bootcamps and hands-on workshops.
+        </p>
+      </div>
+
+      <div class="completed-spotlight-card">
+        <div class="completed-spotlight-body">
+          <div class="completed-spotlight-tags">
+            <span class="pill pill-accent">Completed Bootcamp</span>
+            <span class="pill pill-outline">In-Person Workshop</span>
+          </div>
+          <h3 class="completed-spotlight-title">
+            PromptQuest: Prompt Hacking &amp; AI Safety Workshop
+          </h3>
+          <p class="completed-spotlight-desc">
+            A full-day intensive bootcamp held at Vivanta by Taj, Trivandrum — inaugurated by Anoop Ambika, CEO of Kerala Startup Mission. Participants engaged in hands-on red-teaming, prompt injection defenses, and a live AI crisis tabletop drill.
+          </p>
+          <div class="completed-spotlight-meta">
+            <span>August 30, 2025</span>
+            <span>Vivanta by Taj, Trivandrum</span>
+            <span>Inaugurated by CEO, Kerala Startup Mission</span>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px;">
+            <a href="bootcamp-promptquest.html" class="btn btn-primary">
+              View Bootcamp Details →
+            </a>
+            <a href="bootcamps.html" class="btn btn-secondary">
+              See All Bootcamps
+            </a>
+          </div>
+        </div>
+        <div class="completed-spotlight-media">
+          <img src="images/presentation.webp" alt="PromptQuest workshop presentation at Vivanta by Taj" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+    <!-- TESTIMONIALS SECTION -->
+  <section id="testimonials" class="section section-alt" aria-labelledby="testi-h2">
+    <div class="container-page">
+
+      <div class="section-heading">
+        <span class="text-eyebrow" style="color: var(--accent-text);">Attendee Testimonials</span>
+        <h2 id="testi-h2" class="section-title">What participants say about our bootcamps.</h2>
+        <p class="section-lead">
+          Feedback from developers, technical leads, and founders who experienced our hands-on workshops.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+
+        <div class="testi-card">
+          <blockquote class="testi-quote">
+            “The hands-on lab approach and practical focus made an immediate difference. We built real systems, tested edge cases, and gained actionable engineering skills.”
+          </blockquote>
+          <div class="testi-person">
+            <div class="testi-avatar-placeholder" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div>
+              <div class="testi-name">Participant Name</div>
+              <div class="testi-role">Senior Software Engineer · AI Systems</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <blockquote class="testi-quote">
+            “The simulation exercises gave our engineering team real muscle memory. Moving beyond high-level theory to live troubleshooting was invaluable.”
+          </blockquote>
+          <div class="testi-person">
+            <div class="testi-avatar-placeholder" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div>
+              <div class="testi-name">Participant Name</div>
+              <div class="testi-role">Tech Lead · Product Engineering</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ENQUIRY FORM -->
+  <section id="enquiry" aria-labelledby="enquiry-h2" style="background: var(--graphite-950); color: #f0efea; padding-block: 80px;">
+    <div class="container-page">
+
+      <div class="enquiry-wrapper">
+
+        <div>
+          <span class="text-eyebrow" style="color: var(--accent); display: block; margin-bottom: 16px;">Get in touch</span>
+          <h2 id="enquiry-h2" class="enquiry-heading">Bring AI training to your team or institution.</h2>
+          <p class="enquiry-lead">
+            Whether you are an institution looking for an in-campus program, or a company wanting to upskill your engineering team — tell us about your context and we will get back to you.
+          </p>
+
+          <div style="margin-top: 32px; padding: 20px 24px; border: 1px solid rgba(240,239,234,.12); border-radius: var(--radius-md); background: var(--graphite-800);">
+            <span class="text-eyebrow" style="color: var(--accent); display: block; margin-bottom: 8px;">Direct contact</span>
+            <p style="font-size: 15px; color: #9a9ca3; line-height: 28px;">
+              <a href="mailto:contact@proseperity.com" style="color: #f0efea; text-decoration: none;">contact@proseperity.com</a><br />
+              <a href="tel:+917676854155" style="color: #9a9ca3; text-decoration: none;">+91 76768 54155</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div>
+          <form class="form" name="enquiry" action="#enquiry" onsubmit="handleSubmit(event)" novalidate aria-label="Bootcamp enquiry form">
+            <div class="field-row">
+              <div class="field">
+                <label for="f-name">Your name</label>
+                <input type="text" id="f-name" name="name" placeholder="Full name" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="f-email">Email address</label>
+                <input type="email" id="f-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-org">Organisation / Institution</label>
+              <input type="text" id="f-org" name="org" placeholder="Your company or college name" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="f-message">Tell us about your context</label>
+              <textarea id="f-message" name="message" rows="4" placeholder="Number of participants, timeline, goals, any specific topics — the more context, the better."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="border: none; cursor: pointer; font-family: 'Manrope', sans-serif; margin-top: 4px;" aria-label="Submit enquiry">
+              Send enquiry →
+            </button>
+            <p id="form-status" role="status" aria-live="polite" style="font-size: 12px; color: #5b5d63; margin-top: 4px;"></p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container-page footer-inner">
+      <span class="footer-brand">Proseperity<span>.</span></span>
+      <span class="footer-copy">© 2026 Kolofon Proseperity AI Private Limited. All rights reserved.</span>
+      <span class="footer-contact">
+        <a href="mailto:contact@proseperity.com">contact@proseperity.com</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      var form   = e.target;
+      var status = document.getElementById('form-status');
+      var name   = form.elements['name'].value.trim();
+      var email  = form.elements['email'].value.trim();
+      if (!name || !email) {
+        status.textContent = 'Please fill in your name and email.';
+        status.style.color = '#ff8f80';
+        return;
+      }
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      setTimeout(function() {
+        status.textContent = 'Thanks — we will be in touch soon.';
+        status.style.color = '#c8f04a';
+        form.reset();
+        btn.disabled = false;
+        btn.textContent = 'Send enquiry →';
+      }, 1200);
+    }
+  </script>
+
+</body>
+</html>
