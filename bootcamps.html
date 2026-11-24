@@ -60,7 +60,7 @@
 
     /* Header */
     header {
-      position: sticky; top: 0; z-index: 20;
+      position: sticky; top: 0; z-index: 100;
       border-bottom: 1px solid var(--hairline);
       background: var(--surface);
     }
@@ -69,16 +69,69 @@
       height: 72px;
     }
     .brand-wrap { display: flex; align-items: center; gap: 32px; }
+    .brand-link { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+    .header-logo { height: 26px; width: 26px; display: block; flex-shrink: 0; }
     .wordmark {
       font-family: 'Manrope', sans-serif;
       font-size: 18px; font-weight: 700; color: var(--ink);
       text-decoration: none; letter-spacing: -0.01em;
+      line-height: 1;
     }
     .wordmark span { color: var(--accent); }
     nav ul { display: none; list-style: none; gap: 24px; align-items: center; }
-    @media (min-width: 768px) { nav ul { display: flex; } }
+    @media (min-width: 860px) {
+      header { position: relative; top: auto; z-index: 20; }
+      nav ul { display: flex; }
+    }
     nav a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--ink-muted); transition: color .15s; }
     nav a:hover, nav a.active { color: var(--ink); }
+
+    /* Header Actions & Hamburger Menu */
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .header-cta { display: none !important; }
+    .menu-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; padding: 0;
+      background: transparent; border: 1px solid var(--hairline);
+      border-radius: var(--radius-sm); color: var(--ink);
+      cursor: pointer; transition: background-color .15s ease, border-color .15s ease;
+    }
+    .menu-toggle:hover { background-color: var(--surface-alt); border-color: var(--ink-muted); }
+    .menu-toggle .icon-close { display: none; }
+    .menu-toggle .icon-menu { display: block; }
+    .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
+    .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
+    @media (min-width: 860px) {
+      .header-cta { display: inline-flex !important; }
+      .menu-toggle { display: none !important; }
+    }
+
+    /* Mobile Navigation Dropdown */
+    .mobile-nav {
+      display: none; border-top: 1px solid var(--hairline);
+      background: var(--surface);
+      box-shadow: 0 16px 32px rgba(20, 21, 23, 0.08);
+    }
+    .mobile-nav.is-open { display: block; }
+    @media (min-width: 860px) {
+      .mobile-nav, .mobile-nav.is-open { display: none !important; }
+    }
+    .mobile-nav-inner {
+      padding-block: 20px 24px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .mobile-nav-list {
+      list-style: none; display: flex; flex-direction: column; gap: 4px;
+    }
+    .mobile-nav-link {
+      display: block; padding: 10px 14px; font-size: 16px; font-weight: 600;
+      color: var(--ink-muted); text-decoration: none; border-radius: var(--radius-sm);
+      transition: background-color .15s ease, color .15s ease;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active {
+      color: var(--ink); background-color: var(--surface-alt);
+    }
+    .mobile-nav-action { padding-top: 4px; }
+    .btn-block { display: flex; width: 100%; justify-content: center; text-align: center; }
 
     /* Buttons */
     .btn {
@@ -226,7 +279,10 @@
   <header>
     <div class="container-page header-inner">
       <div class="brand-wrap">
-        <a href="index.html" class="wordmark" aria-label="Proseperity home">Proseperity<span>.</span></a>
+        <a href="index.html" class="brand-link" aria-label="Proseperity home">
+          <img src="images/mark.svg" alt="Kolofon mark" class="header-logo" width="26" height="26" />
+          <span class="wordmark">Proseperity<span>.</span></span>
+        </a>
         <nav aria-label="Main Navigation">
           <ul>
             <li><a href="index.html">Home</a></li>
@@ -234,7 +290,39 @@
           </ul>
         </nav>
       </div>
-      <a href="index.html#enquiry" class="btn btn-primary">Enquire Now</a>
+      <div class="header-actions">
+        <a href="index.html#enquiry" class="btn btn-primary header-cta">Enquire Now</a>
+        <button
+          type="button"
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Toggle navigation menu"
+        >
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-nav" class="mobile-nav" hidden>
+      <div class="container-page mobile-nav-inner">
+        <ul class="mobile-nav-list">
+          <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+          <li><a href="bootcamps.html" class="mobile-nav-link active">Bootcamps</a></li>
+        </ul>
+        <div class="mobile-nav-action">
+          <a href="index.html#enquiry" class="btn btn-primary btn-block">Enquire Now</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -301,5 +389,65 @@
     </div>
   </footer>
 
+  <script>
+    (function () {
+      var toggleBtn = document.querySelector(".menu-toggle");
+      var mobileNav = document.getElementById("mobile-nav");
+      if (!toggleBtn || !mobileNav) return;
+
+      function closeMenu() {
+        toggleBtn.setAttribute("aria-expanded", "false");
+        mobileNav.classList.remove("is-open");
+        mobileNav.setAttribute("hidden", "");
+      }
+
+      function openMenu() {
+        toggleBtn.setAttribute("aria-expanded", "true");
+        mobileNav.classList.add("is-open");
+        mobileNav.removeAttribute("hidden");
+      }
+
+      toggleBtn.addEventListener("click", function () {
+        var isOpen = toggleBtn.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      // Close menu when clicking any link inside mobile-nav
+      mobileNav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          closeMenu();
+        });
+      });
+
+      // Close menu on Escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && toggleBtn.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+          toggleBtn.focus();
+        }
+      });
+
+      // Close menu on click outside header
+      document.addEventListener("click", function (e) {
+        if (toggleBtn.getAttribute("aria-expanded") === "true") {
+          var header = document.querySelector("header");
+          if (header && !header.contains(e.target)) {
+            closeMenu();
+          }
+        }
+      });
+
+      // Close menu if window is resized to desktop breakpoint
+      window.addEventListener("resize", function () {
+        if (window.innerWidth >= 860 && toggleBtn.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

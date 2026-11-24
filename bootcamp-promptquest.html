@@ -60,7 +60,7 @@
 
     /* Header */
     header {
-      position: sticky; top: 0; z-index: 20;
+      position: sticky; top: 0; z-index: 100;
       border-bottom: 1px solid var(--hairline);
       background: var(--surface);
     }
@@ -69,16 +69,69 @@
       height: 72px;
     }
     .brand-wrap { display: flex; align-items: center; gap: 32px; }
+    .brand-link { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+    .header-logo { height: 26px; width: 26px; display: block; flex-shrink: 0; }
     .wordmark {
       font-family: 'Manrope', sans-serif;
       font-size: 18px; font-weight: 700; color: var(--ink);
       text-decoration: none; letter-spacing: -0.01em;
+      line-height: 1;
     }
     .wordmark span { color: var(--accent); }
     nav ul { display: none; list-style: none; gap: 24px; align-items: center; }
-    @media (min-width: 768px) { nav ul { display: flex; } }
+    @media (min-width: 860px) {
+      header { position: relative; top: auto; z-index: 20; }
+      nav ul { display: flex; }
+    }
     nav a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--ink-muted); transition: color .15s; }
     nav a:hover, nav a.active { color: var(--ink); }
+
+    /* Header Actions & Hamburger Menu */
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .header-cta { display: none !important; }
+    .menu-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; padding: 0;
+      background: transparent; border: 1px solid var(--hairline);
+      border-radius: var(--radius-sm); color: var(--ink);
+      cursor: pointer; transition: background-color .15s ease, border-color .15s ease;
+    }
+    .menu-toggle:hover { background-color: var(--surface-alt); border-color: var(--ink-muted); }
+    .menu-toggle .icon-close { display: none; }
+    .menu-toggle .icon-menu { display: block; }
+    .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
+    .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
+    @media (min-width: 860px) {
+      .header-cta { display: inline-flex !important; }
+      .menu-toggle { display: none !important; }
+    }
+
+    /* Mobile Navigation Dropdown */
+    .mobile-nav {
+      display: none; border-top: 1px solid var(--hairline);
+      background: var(--surface);
+      box-shadow: 0 16px 32px rgba(20, 21, 23, 0.08);
+    }
+    .mobile-nav.is-open { display: block; }
+    @media (min-width: 860px) {
+      .mobile-nav, .mobile-nav.is-open { display: none !important; }
+    }
+    .mobile-nav-inner {
+      padding-block: 20px 24px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .mobile-nav-list {
+      list-style: none; display: flex; flex-direction: column; gap: 4px;
+    }
+    .mobile-nav-link {
+      display: block; padding: 10px 14px; font-size: 16px; font-weight: 600;
+      color: var(--ink-muted); text-decoration: none; border-radius: var(--radius-sm);
+      transition: background-color .15s ease, color .15s ease;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active {
+      color: var(--ink); background-color: var(--surface-alt);
+    }
+    .mobile-nav-action { padding-top: 4px; }
+    .btn-block { display: flex; width: 100%; justify-content: center; text-align: center; }
 
     /* Buttons */
     .btn {
@@ -116,46 +169,197 @@
     @media (min-width: 768px) { .section-title { font-size: 46px; line-height: 52px; } }
     .section-lead { font-size: 18px; line-height: 28px; color: var(--ink-muted); }
 
-    /* Hero */
+    /* Hero - Emergence Developers Page Split Grid Pattern */
     .recap-hero {
-      background: var(--graphite-950); color: #f0efea;
-      padding-top: 60px; padding-bottom: 80px;
+      display: grid;
+      border-bottom: 1px solid rgba(240, 239, 234, 0.12);
+      background: var(--graphite-950);
+      color: #f0efea;
+      width: 100%;
+    }
+    @media (min-width: 1024px) {
+      .recap-hero {
+        grid-template-columns: 1fr 1fr;
+        min-height: max(640px, 92svh);
+      }
+    }
+    .hero-content-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      padding: 56px 24px;
+    }
+    @media (min-width: 768px) {
+      .hero-content-col {
+        padding: 72px 48px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .hero-content-col {
+        padding-top: 72px;
+        padding-bottom: 72px;
+        padding-left: max(48px, calc((100vw - 1280px) / 2 + 48px));
+        padding-right: 56px;
+      }
+    }
+    .hero-inner-wrap {
+      display: flex;
+      max-width: 580px;
+      flex-direction: column;
+      gap: 20px;
     }
     .hero-meta-strip {
-      display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
     }
     .hero-h1 {
-      font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.02em; color: #f0efea;
-      max-width: 860px;
+      font-size: 36px;
+      line-height: 42px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #f0efea;
     }
     @media (min-width: 768px) {
-      .hero-h1 { font-size: 58px; line-height: 64px; }
+      .hero-h1 {
+        font-size: 46px;
+        line-height: 52px;
+      }
+    }
+    @media (min-width: 1200px) {
+      .hero-h1 {
+        font-size: 52px;
+        line-height: 58px;
+      }
     }
     .hero-lead-text {
-      font-size: 19px; line-height: 30px; color: #9a9ca3;
-      max-width: 740px; margin-top: 20px;
+      font-size: 17px;
+      line-height: 28px;
+      color: #9a9ca3;
+      max-width: 540px;
+    }
+    .hero-ctarow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
     }
 
-    /* Stats Banner */
+    /* 2x2 Stats Grid (Emergence Developers Facts pattern) */
     .stats-bar {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 1px; background: rgba(240,239,234,.12);
-      border-radius: var(--radius-md); overflow: hidden;
-      margin-top: 48px; border: 1px solid rgba(240,239,234,.12);
-    }
-    @media (min-width: 768px) {
-      .stats-bar { grid-template-columns: repeat(4, 1fr); }
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(240, 239, 234, 0.12);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(240, 239, 234, 0.12);
+      max-width: 540px;
+      margin-top: 8px;
     }
     .stats-col {
-      background: var(--graphite-900); padding: 20px 24px;
+      background: var(--graphite-900);
+      padding: 16px 18px;
     }
     .stats-col-label {
-      display: block; font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #9a9ca3; margin-bottom: 4px;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9a9ca3;
+      margin-bottom: 4px;
     }
     .stats-col-val {
-      font-size: 17px; font-weight: 700; color: #f0efea;
+      font-size: 15px;
+      font-weight: 700;
+      color: #f0efea;
+      line-height: 22px;
+    }
+
+    /* Hero Media / Placeholder Column matching Emergence ImageSlot pattern */
+    .hero-media-col {
+      position: relative;
+      aspect-ratio: 4/3;
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      overflow: hidden;
+      background: var(--graphite-900);
+      border-top: 1px solid rgba(240, 239, 234, 0.12);
+      display: flex;
+      align-items: flex-end;
+    }
+    @media (min-width: 1024px) {
+      .hero-media-col {
+        aspect-ratio: auto;
+        min-height: auto;
+        border-top: none;
+        border-left: 1px solid rgba(240, 239, 234, 0.12);
+      }
+    }
+    .hero-media-placeholder {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      background-color: var(--graphite-900);
+      background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0 14px,
+        rgba(240, 239, 234, 0.04) 14px 15px
+      );
+    }
+    @media (min-width: 768px) {
+      .hero-media-placeholder {
+        padding: 36px;
+      }
+    }
+    .hero-placeholder-icon-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: rgba(240, 239, 234, 0.25);
+      pointer-events: none;
+    }
+    .hero-placeholder-card {
+      position: relative;
+      background: rgba(18, 19, 21, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(240, 239, 234, 0.14);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+    .hero-placeholder-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+    .hero-placeholder-desc {
+      font-size: 13px;
+      line-height: 20px;
+      color: #9a9ca3;
     }
 
     /* 3-Session Breakdown */
@@ -296,7 +500,10 @@
   <header>
     <div class="container-page header-inner">
       <div class="brand-wrap">
-        <a href="index.html" class="wordmark" aria-label="Proseperity home">Proseperity<span>.</span></a>
+        <a href="index.html" class="brand-link" aria-label="Proseperity home">
+          <img src="images/mark.svg" alt="Kolofon mark" class="header-logo" width="26" height="26" />
+          <span class="wordmark">Proseperity<span>.</span></span>
+        </a>
         <nav aria-label="Main Navigation">
           <ul>
             <li><a href="index.html">Home</a></li>
@@ -304,54 +511,113 @@
           </ul>
         </nav>
       </div>
-      <a href="index.html#enquiry" class="btn btn-primary">Enquire for Your Team</a>
+      <div class="header-actions">
+        <a href="index.html#enquiry" class="btn btn-primary header-cta">Enquire</a>
+        <button
+          type="button"
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Toggle navigation menu"
+        >
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-nav" class="mobile-nav" hidden>
+      <div class="container-page mobile-nav-inner">
+        <ul class="mobile-nav-list">
+          <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+          <li><a href="bootcamps.html" class="mobile-nav-link">Bootcamps</a></li>
+        </ul>
+        <div class="mobile-nav-action">
+          <a href="index.html#enquiry" class="btn btn-primary btn-block">Enquire</a>
+        </div>
+      </div>
     </div>
   </header>
 
 
-  <!-- CASE STUDY HERO -->
+  <!-- CASE STUDY HERO (Emergence Developers Page Split Grid Pattern) -->
   <section class="recap-hero" aria-labelledby="recap-h1">
-    <div class="container-page">
+    <div class="hero-content-col">
+      <div class="hero-inner-wrap">
 
-      <div class="hero-meta-strip">
-        <span class="pill pill-accent">Completed Edition</span>
-        <span class="pill pill-outline-dark">AI Security &amp; Safety</span>
-        <span class="pill pill-outline-dark">Full-Day Intensive</span>
+        <div class="hero-meta-strip">
+          <span class="pill pill-accent">Completed Edition</span>
+          <span class="pill pill-outline-dark">AI Security &amp; Safety</span>
+          <span class="pill pill-outline-dark">Full-Day Intensive</span>
+        </div>
+
+        <h1 id="recap-h1" class="hero-h1">
+          PromptQuest: Exploring the Frontiers of Prompt Security
+        </h1>
+
+        <p class="hero-lead-text">
+          The ultimate hands-on AI safety workshop, live prompt hacking competition, and crisis tabletop simulation — preparing engineering teams to defend LLMs before real threats strike.
+        </p>
+
+        <!-- 2x2 Facts Grid (Emergence Developers Facts Pattern) -->
+        <div class="stats-bar">
+          <div class="stats-col">
+            <span class="stats-col-label">Date &amp; Time</span>
+            <span class="stats-col-val">August 30, 2025 · 9 AM – 5 PM</span>
+          </div>
+          <div class="stats-col">
+            <span class="stats-col-label">Venue</span>
+            <span class="stats-col-val">Vivanta by Taj, Trivandrum</span>
+          </div>
+          <div class="stats-col">
+            <span class="stats-col-label">Inauguration</span>
+            <span class="stats-col-val">Anoop Ambika, CEO Kerala Startup Mission</span>
+          </div>
+          <div class="stats-col">
+            <span class="stats-col-label">Format</span>
+            <span class="stats-col-val">Concepts + Hackathon + Tabletop</span>
+          </div>
+        </div>
+
+        <!-- Hero CTAs -->
+        <div class="hero-ctarow">
+          <a href="index.html#enquiry" class="btn btn-primary btn-lg">Enquire for Your Team</a>
+          <a href="#sessions" class="btn btn-dark-secondary btn-lg">See Workshop Format</a>
+        </div>
+
       </div>
+    </div>
 
-      <h1 id="recap-h1" class="hero-h1">
-        PromptQuest: Exploring the Frontiers of Prompt Security
-      </h1>
-
-      <p class="hero-lead-text">
-        The ultimate hands-on AI safety workshop, live prompt hacking competition, and crisis tabletop simulation — preparing engineering teams to defend LLMs before real threats strike.
-      </p>
-
-      <div class="stats-bar">
-        <div class="stats-col">
-          <span class="stats-col-label">Date &amp; Time</span>
-          <span class="stats-col-val">August 30, 2025 · 9 AM – 5 PM</span>
+    <!-- Hero Media / Placeholder matching Emergence ImageSlot pattern -->
+    <div class="hero-media-col" role="img" aria-label="PromptQuest hackathon workshop photo placeholder">
+      <div class="hero-media-placeholder">
+        <div class="hero-placeholder-icon-wrap" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;">Image Slot</span>
         </div>
-        <div class="stats-col">
-          <span class="stats-col-label">Venue</span>
-          <span class="stats-col-val">Vivanta by Taj, Trivandrum</span>
-        </div>
-        <div class="stats-col">
-          <span class="stats-col-label">Inauguration</span>
-          <span class="stats-col-val">Anoop Ambika, CEO Kerala Startup Mission</span>
-        </div>
-        <div class="stats-col">
-          <span class="stats-col-label">Format</span>
-          <span class="stats-col-val">Concepts + Hackathon + Tabletop</span>
+        <div class="hero-placeholder-card">
+          <span class="hero-placeholder-tag">Hero Photo · PromptQuest</span>
+          <span class="hero-placeholder-desc">Participants collaborating at laptops during the live AI red-teaming hackathon session at Vivanta by Taj.</span>
         </div>
       </div>
-
     </div>
   </section>
 
 
   <!-- WHAT WAS DONE: 3 SESSION BREAKDOWN -->
-  <section class="section" aria-labelledby="sessions-h2">
+  <section id="sessions" class="section" aria-labelledby="sessions-h2">
     <div class="container-page">
 
       <div class="section-heading">
@@ -577,5 +843,65 @@
     </div>
   </footer>
 
+  <script>
+    (function () {
+      var toggleBtn = document.querySelector(".menu-toggle");
+      var mobileNav = document.getElementById("mobile-nav");
+      if (!toggleBtn || !mobileNav) return;
+
+      function closeMenu() {
+        toggleBtn.setAttribute("aria-expanded", "false");
+        mobileNav.classList.remove("is-open");
+        mobileNav.setAttribute("hidden", "");
+      }
+
+      function openMenu() {
+        toggleBtn.setAttribute("aria-expanded", "true");
+        mobileNav.classList.add("is-open");
+        mobileNav.removeAttribute("hidden");
+      }
+
+      toggleBtn.addEventListener("click", function () {
+        var isOpen = toggleBtn.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      // Close menu when clicking any link inside mobile-nav
+      mobileNav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          closeMenu();
+        });
+      });
+
+      // Close menu on Escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && toggleBtn.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+          toggleBtn.focus();
+        }
+      });
+
+      // Close menu on click outside header
+      document.addEventListener("click", function (e) {
+        if (toggleBtn.getAttribute("aria-expanded") === "true") {
+          var header = document.querySelector("header");
+          if (header && !header.contains(e.target)) {
+            closeMenu();
+          }
+        }
+      });
+
+      // Close menu if window is resized to desktop breakpoint
+      window.addEventListener("resize", function () {
+        if (window.innerWidth >= 860 && toggleBtn.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
